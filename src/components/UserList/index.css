@@ -1,0 +1,11 @@
+.show_details{
+    border-radius: 10px;
+    border: none;
+    background-color: black;
+    color:white;
+    cursor: pointer;
+}
+.show_details:hover{
+    background-color: white;
+    color:black
+}
