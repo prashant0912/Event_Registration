@@ -5,7 +5,7 @@ import { UserList } from '../UserList';
 export const RegistrationForm = () => {
 
     const date = new Date(Date.now());
-    const [error, setError] = useState();
+    const [error, setError] = useState("");
     
     const monthNames = [
         'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -47,7 +47,11 @@ export const RegistrationForm = () => {
 
 
         console.log(errors)
-        setError(errors)
+        return {
+            errors,
+            isValid: Object.keys(errors).length === 0
+        };
+        
 
 
     }
@@ -70,9 +74,9 @@ export const RegistrationForm = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault()
-        validate(formdata);
+        const { errors, isValid } = validate(formdata);
         console.log(formdata)
-        if (formdata.fullName && formdata.email && formdata.phone && formdata.description) {
+        if (isValid) {
             var newdata = [...data, { ...formdata, timeStamp: `${day} ${month} ${year} ${hours}:${minutes}:${seconds}`, id: (data.length) + 1 }]
             let string = JSON.stringify(newdata);
             localStorage.setItem("key", string);
@@ -80,7 +84,11 @@ export const RegistrationForm = () => {
             let retString = localStorage.getItem("key");
             let retArray = JSON.parse(retString)
             setData(retArray);
+            window.location.reload();
 
+        }
+        else{
+            setError(errors)
         }
 
 
